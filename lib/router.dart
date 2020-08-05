@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:splitb/screens/createnewdebtor.dart';
 import 'package:splitb/screens/homescreen.dart';
 import 'package:splitb/screens/loginscreen.dart';
+import 'package:splitb/screens/profilescreen.dart';
 import 'package:splitb/screens/startupscreen.dart';
 import 'package:splitb/screens/onboarding_screen.dart';
 import 'package:splitb/screens/signupscreen.dart';
@@ -23,6 +25,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => HomeScreen());
     case ONBOARDINGSCREEN:
       return MaterialPageRoute(builder: (context) => Onboarding());
+    case PROFILESCREEN:
+      return MaterialPageRoute(builder: (context)=>ProfileScreen());
+    case CREATENEWDEBTOR:
+      return MaterialPageRoute(builder: (context)=>CreateNewDebtor());
 
     default:
       return MaterialPageRoute(

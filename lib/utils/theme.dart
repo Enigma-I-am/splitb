@@ -15,6 +15,7 @@ themeData(context) => ThemeData(
 darkThemeData(context) => ThemeData.dark().copyWith(
       textTheme: GoogleFonts.ubuntuTextTheme(Theme.of(context).textTheme),
       primaryColor: Colors.green,
+      scaffoldBackgroundColor: HexColor.fromHex("#050A30"),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
 

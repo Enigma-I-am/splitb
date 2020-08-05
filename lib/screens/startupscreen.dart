@@ -11,7 +11,6 @@ class GetStartedScreen extends HookWidget {
   Widget build(BuildContext context) {
     final _viewmodel = useProvider(startVm);
     return Scaffold(
-        backgroundColor: Colors.blue,
         body: ListView(
           children: <Widget>[
             YMargin(150),

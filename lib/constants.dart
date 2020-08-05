@@ -1,7 +1,9 @@
 // Route names
-const String GETSTARTEDSCREEN = 'getstartedscreen';
+const GETSTARTEDSCREEN = 'getstartedscreen';
+const PROFILESCREEN = 'profilescreen';
 const LOGINSCREEN = 'loginScreen';
-const String SIGNUPSCREEN = 'signUpScreen';
-const String HOMESCREEN = 'homeScreen';
-const String ONBOARDINGSCREEN = 'onboardingScreen';
-const String SPLASHSCREEN = 'splashscreen';
+const SIGNUPSCREEN = 'signUpScreen';
+const HOMESCREEN = 'homeScreen';
+const ONBOARDINGSCREEN = 'onboardingScreen';
+const SPLASHSCREEN = 'splashscreen';
+const CREATENEWDEBTOR = 'createNewDebtor';

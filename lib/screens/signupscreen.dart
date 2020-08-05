@@ -16,7 +16,7 @@ class SignUpScreen extends HookWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Form(
         key: _formKey,
@@ -47,6 +47,7 @@ class SignUpScreen extends HookWidget {
               ),
               YMargin(20),
               TextFormField(
+                style: TextStyle(color: Colors.white),
                 validator: (value) {
                   if (!value.contains("@")) {
                     return "please enter a valid email";
@@ -61,6 +62,7 @@ class SignUpScreen extends HookWidget {
               ),
               YMargin(10),
               TextFormField(
+                style: TextStyle(color: Colors.white),
                 validator: (value) {
                   if (value.isEmpty || value.length < 6) {
                     return "Please enter a valid password";
@@ -75,6 +77,7 @@ class SignUpScreen extends HookWidget {
               ),
               YMargin(10),
               TextFormField(
+                style: TextStyle(color: Colors.white),
                 validator: (value) {
                   if (value.isEmpty || value.length < 6) {
                     return "Please enter a valid password";
@@ -119,7 +122,7 @@ class SignUpScreen extends HookWidget {
                       children: <Widget>[
                         Text(
                           "Already have an account? ",
-                          style: TextStyle(color: Colors.black, fontSize: 15),
+                          style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                         Text(
                           "Log in",
