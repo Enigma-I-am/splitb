@@ -67,15 +67,15 @@ class HomeScreen extends HookWidget {
                     children: <Widget>[
                       Text(
                         "Total Balance",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.grey[300]),
                       ),
                       Text(
                         "\$1274",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            color: Colors.green,
+                            color: Colors.white,
                             fontSize: 40),
-                      )
+                      ),
                     ],
                   ),
                   YMargin(MediaQuery.of(context).size.height * 0.04),
@@ -89,13 +89,13 @@ class HomeScreen extends HookWidget {
                         children: <Widget>[
                           Text(
                             "You're owed",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.grey[300]),
                           ),
                           Text(
                             "\$1274",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                color: Colors.green,
+                                color: Colors.white,
                                 fontSize: 20),
                           )
                         ],
@@ -107,13 +107,13 @@ class HomeScreen extends HookWidget {
                         children: <Widget>[
                           Text(
                             "You owe",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.grey[300]),
                           ),
                           Text(
                             "\$1274",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                color: Colors.green,
+                                color: Colors.white,
                                 fontSize: 20),
                           )
                         ],
@@ -128,13 +128,13 @@ class HomeScreen extends HookWidget {
                     children: <Widget>[
                       Text(
                         "Expense this month",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.grey[300]),
                       ),
                       Text(
                         "\$1274",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            color: Colors.green,
+                            color: Colors.white,
                             fontSize: 20),
                       )
                     ],
@@ -145,7 +145,7 @@ class HomeScreen extends HookWidget {
             DraggableScrollableSheet(
               initialChildSize: 0.5,
               minChildSize: 0.5,
-              maxChildSize: 0.84,
+              maxChildSize: 0.825,
               builder: (BuildContext context, myscrollController) {
                 return Container(
                     decoration: BoxDecoration(

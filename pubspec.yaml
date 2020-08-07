@@ -26,10 +26,14 @@ dependencies:
   hooks_riverpod: ^0.5.1
   flutter_hooks: ^0.13.0
   liquid_swipe: ^1.5.0
-  blobs: ^1.2.0
   google_fonts: ^1.1.0
   shared_preferences: ^0.5.8
   dot_tab_indicator: ^1.0.0
+  percent_indicator: ^2.1.5
+  flutter_slidable: ^0.5.5
+  firebase_core: ^0.4.5
+  firebase_auth: ^0.16.1
+  cloud_firestore: ^0.13.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

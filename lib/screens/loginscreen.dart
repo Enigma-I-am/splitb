@@ -14,6 +14,7 @@ class LoginScreen extends HookWidget {
     final _viewmodel = useProvider(startVm);
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.white),
@@ -84,7 +85,7 @@ class LoginScreen extends HookWidget {
                         SnackBar(content: Text('Incorrect password!'));
                     formState.save();
                     
-                      _viewmodel.navigateAndClear(HOMESCREEN);
+                     _viewmodel.logUserIn(email: email, password: password);
                
                       Scaffold.of(context).showSnackBar(snackBar);
             

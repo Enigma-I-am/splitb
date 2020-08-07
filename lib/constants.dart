@@ -6,4 +6,5 @@ const SIGNUPSCREEN = 'signUpScreen';
 const HOMESCREEN = 'homeScreen';
 const ONBOARDINGSCREEN = 'onboardingScreen';
 const SPLASHSCREEN = 'splashscreen';
-const CREATENEWDEBTOR = 'createNewDebtor';
+const CREATENEWDEBTORSCREEN = 'createNewDebtor';
+const DEBTDETAILSCREEN = 'debtDetail';

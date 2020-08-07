@@ -91,7 +91,10 @@ class _FriendGroupBottomSheetScreenState
                   children: List.generate(
                       4,
                       (index) => GroupFriendWidget(
-                            title: "Dish $index",
+                            title: "Chisom $index",
+                            navigateToDetails: () =>
+                              homescreenVm.read(context).navigateToDebtDetail("Chisom $index")
+                            ,
                           )),
                 ),
                 GridView.count(
@@ -100,7 +103,8 @@ class _FriendGroupBottomSheetScreenState
                   children: List.generate(
                       4,
                       (index) => GroupFriendWidget(
-                            title: "Dash $index",
+                            title: "Flatmate $index",
+                            navigateToDetails: ()=> homescreenVm.read(context).navigateToDebtDetail("Flatmate $index"),
                           )),
                 ),
               ]),

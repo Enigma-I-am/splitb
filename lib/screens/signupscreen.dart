@@ -14,6 +14,7 @@ class SignUpScreen extends HookWidget {
     final _viewmodel = useProvider(startVm);
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.white),
@@ -99,7 +100,8 @@ class SignUpScreen extends HookWidget {
                         SnackBar(content: Text('Incorrect password!'));
                     formState.save();
                     if (password == confirmPassword) {
-                      _viewmodel.navigateAndClear(HOMESCREEN);
+                      _viewmodel.createUser(email: email ,password: password);
+                      
                     } else {
                       Scaffold.of(context).showSnackBar(snackBar);
                     }

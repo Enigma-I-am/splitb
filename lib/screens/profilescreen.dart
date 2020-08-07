@@ -9,6 +9,7 @@ class ProfileScreen extends HookWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 0.0,
         backgroundColor: HexColor.fromHex("#050A30"),
         title: Text("Profile"),
