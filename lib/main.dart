@@ -17,6 +17,7 @@ class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navServiceProvider = useProvider(navService);
+    
     return MaterialApp(
       navigatorKey: navServiceProvider.navigatorKey,
       onGenerateRoute: generateRoute,

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:splitb/constants.dart';
 import 'package:splitb/core/services/authentication_service.dart';
 import 'package:splitb/core/services/navigation_service.dart';
@@ -46,11 +48,16 @@ class AuthViewmodel extends BaseViewModel {
 
   Future handleStartUplogic() async {
     var hasUserLoggedIn = await _authenticationService.isUserLoggedIn();
+
     if (hasUserLoggedIn) {
       _navigationService.navigateToReplacement(HOMESCREEN);
     } else {
-      _navigationService.navigateToReplacement(GETSTARTEDSCREEN);
+      _navigationService.navigateToReplacement(ONBOARDINGSCREEN);
     }
+  }
+
+  Future<FirebaseUser> currentUser() async {
+    return _authenticationService.theCurrentUser();
   }
 
   void navigateToDestination(String destination) async {

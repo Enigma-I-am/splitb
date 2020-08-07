@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:splitb/constants.dart';
 import 'package:splitb/providers.dart';
 import 'package:splitb/utils/margin.dart';
 
@@ -9,6 +8,7 @@ import 'package:splitb/utils/margin.dart';
 class SignUpScreen extends HookWidget {
   String email, password, confirmPassword;
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final _viewmodel = useProvider(startVm);

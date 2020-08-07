@@ -1,23 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:splitb/core/models/usermodel.dart';
 
 class FirestoreServcie {
-  
   final Firestore _db = Firestore.instance;
   CollectionReference _ref;
- 
 
-  Future addUserToUserCollection(String path, UserModel userModel) async {
+  Future addUserToUserCollection(String path, String uid,String email) async {
     try {
       _ref = _db.collection(path);
-      _ref.document(userModel.id).setData(userModel.toJson());
+      await _ref.document(uid).setData(UserModel(id: uid, email: email).toJson());
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future updateUserProfile(String id) {}
+  // Future updateUserProfile(String id) {}
 
   Future getUser(String uid) async {
     try {

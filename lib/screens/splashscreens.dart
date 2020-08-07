@@ -1,34 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:splitb/constants.dart';
+import 'package:splitb/screens/homescreen.dart';
+import 'package:splitb/screens/onboarding_screen.dart';
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  startTime() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool firstTime = prefs.getBool('first_time');
-    if (firstTime != null && !firstTime) {
-      // Not first time
-      Navigator.of(context).pushReplacementNamed(GETSTARTEDSCREEN);
-    } else {
-      // First time
-      prefs.setBool('first_time', false);
-      Navigator.of(context).pushReplacementNamed(ONBOARDINGSCREEN);
-    }
-  }
-
-  @override
-  void initState() {
-    startTime();
-    super.initState();
-  }
-
+class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text(" "),);
+ 
+    return FutureBuilder<FirebaseUser>(
+        future: FirebaseAuth.instance.currentUser(),
+        builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
+          if (snapshot.hasData) {
+            FirebaseUser user = snapshot.data;
+            print(user.uid);
+            return HomeScreen();
+          }
+          return Onboarding();
+        });
   }
 }

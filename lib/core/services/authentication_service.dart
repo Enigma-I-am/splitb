@@ -13,10 +13,10 @@ class AuthenticationService {
 
   UserModel get currentUser => _currentUser;
 
-  AuthenticationService(this._providerRef){
+  AuthenticationService(this._providerRef) {
     firestoreService = _providerRef.read(fireStoreService);
   }
-  
+
 // Check if user is logged in
   Future<bool> isUserLoggedIn() async {
     var user = await _auth.currentUser();
@@ -24,26 +24,8 @@ class AuthenticationService {
     return user != null;
   }
 
-// Create a User with email and password
-  Future createUser({
-    @required String email,
-    @required String password,
-    @required String path,
-  }) async {
-    try {
-      var authResult = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      _currentUser = UserModel(
-        id: authResult.user.uid,
-        email: email,
-      );
-      await firestoreService.addUserToUserCollection(path, _currentUser);
-      await getUserDetails(authResult.user);
-      return authResult.user != null;
-    } catch (error) {
-      print(error.toString());
-      return error.toString();
-    }
+  Future<FirebaseUser> theCurrentUser() async {
+    return _auth.currentUser();
   }
 
 // Log User in with email and password
@@ -58,15 +40,22 @@ class AuthenticationService {
     }
   }
 
-  // Log User in with email and password
+  // Create new User with email and password
   Future createUserWithEmailAndPassword(
       {@required String email, @required String password}) async {
     try {
       var authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      var uid = authResult.user.uid;
+      print("ID: $uid");
 
+      await firestoreService.addUserToUserCollection(
+        "Users",
+        uid,
+        email,
+      );
       await getUserDetails(authResult.user);
-      
+
       return authResult.user != null;
     } catch (e) {
       return e;
@@ -74,7 +63,6 @@ class AuthenticationService {
   }
 
 // get User details
-
   Future getUserDetails(FirebaseUser user) async {
     if (user != null) {
       _currentUser = await firestoreService.getUser(user.uid);

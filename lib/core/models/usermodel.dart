@@ -9,13 +9,14 @@ class UserModel {
   int level;
   final DocumentReference reference;
 
-  UserModel(
-      {@required id,
-       this.firstName,
-       this.lastName,
-      @required this.email,
-       this.level,
-      this.reference});
+  UserModel({
+    @required this.id,
+    @required this.email,
+    this.firstName,
+    this.lastName,
+    this.level,
+    this.reference,
+  });
 
   // fromMap Map<dynamic, dynamic> map, {this.reference}
   UserModel.fromMap(Map<dynamic, dynamic> map, {this.reference})
@@ -24,7 +25,7 @@ class UserModel {
         lastName = map["lastName"],
         email = map["email"],
         level = map["level"];
-  
+
   // fromSnapshot DocumentSnapshot snapshot
   UserModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
@@ -37,8 +38,6 @@ class UserModel {
     data["lastName"] = lastName;
     data["email"] = email;
     data["level"] = level;
-   
-
     return data;
   }
 }
