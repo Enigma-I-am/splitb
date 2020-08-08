@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:splitb/providers.dart';
 import 'package:splitb/utils/margin.dart';
 import 'package:splitb/utils/theme.dart';
-import 'package:splitb/widgets/addwidget.dart';
-import 'package:splitb/widgets/avaterwidget.dart';
 
+// ignore: must_be_immutable
 class CreateNewDebtor extends HookWidget {
   final _formKey = GlobalKey<FormState>();
+  String _name, _phoneNumber;
+  int _amount;
   @override
   Widget build(BuildContext context) {
+    final _viewmodel = useProvider(createDebtorVm);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -34,14 +38,14 @@ class CreateNewDebtor extends HookWidget {
               TextFormField(
                 style: TextStyle(color: Colors.white),
                 validator: (value) {
-                  if (!value.contains("@")) {
-                    return "please enter a valid email";
+                  if (value.isEmpty) {
+                    return "please enter a name";
                   }
                   return null;
                 },
-                // onSaved: (input) => email = input,
+                onSaved: (input) => _name = input,
                 decoration: InputDecoration(
-                  labelText: "friend/group name",
+                  labelText: "name",
                   // suffix: suffix,
                 ),
               ),
@@ -53,17 +57,17 @@ class CreateNewDebtor extends HookWidget {
                   Flexible(
                     flex: 1,
                     child: TextFormField(
-                      initialValue: 2.toString(),
+                      keyboardType: TextInputType.number,
                       style: TextStyle(color: Colors.white),
                       validator: (value) {
-                        if (!value.contains("@")) {
-                          return "please enter a valid email";
+                        if (value.isEmpty) {
+                          return "please tell us how much";
                         }
                         return null;
                       },
-                      // onSaved: (input) => email = input,
+                      onSaved: (input) => _amount = int.parse(input),
                       decoration: InputDecoration(
-                        labelText: "split No.",
+                        labelText: "amount",
                         // suffix: suffix,
                       ),
                     ),
@@ -72,16 +76,17 @@ class CreateNewDebtor extends HookWidget {
                   Flexible(
                     flex: 3,
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       style: TextStyle(color: Colors.white),
                       validator: (value) {
-                        if (!value.contains("@")) {
-                          return "please enter a valid email";
+                        if (value.isEmpty) {
+                          return "please tell us phone number";
                         }
                         return null;
                       },
-                      // onSaved: (input) => email = input,
+                      onSaved: (input) => _phoneNumber = input,
                       decoration: InputDecoration(
-                        labelText: "amount",
+                        labelText: "phone No.",
                         // suffix: suffix,
                       ),
                     ),
@@ -89,30 +94,18 @@ class CreateNewDebtor extends HookWidget {
                 ],
               ),
               YMargin(30),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  AddWidget(),
-                ],
-              ),
-              
-              Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  children: List.generate(
-                      4,
-                      (index) => AvaterWidget(
-                            title: "",
-                          )),
-                ),
-              ),
-              YMargin(20),
               FlatButton(
                 color: Colors.green,
-                onPressed: () {},
+                onPressed: () {
+                  var formState = _formKey.currentState;
+                  if (formState.validate()) {
+                    formState.save();
+                    _viewmodel.addFriend(
+                        name: _name,
+                        amountOwed: _amount,
+                        phoneNumber: _phoneNumber);
+                  }
+                },
                 child: Text(
                   "Create",
                   style: TextStyle(

@@ -7,4 +7,7 @@ const HOMESCREEN = 'homeScreen';
 const ONBOARDINGSCREEN = 'onboardingScreen';
 const SPLASHSCREEN = 'splashscreen';
 const CREATENEWDEBTORSCREEN = 'createNewDebtor';
+const CREATENEWDEBTORGROUPSCREEN = 'createNewDebtorGroup';
 const DEBTDETAILSCREEN = 'debtDetail';
+
+

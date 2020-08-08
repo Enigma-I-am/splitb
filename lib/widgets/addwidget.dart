@@ -8,9 +8,10 @@ class AddWidget extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           border: Border.all(color: Colors.white)),
-      width: MediaQuery.of(context).size.width * 0.08,
+      width: MediaQuery.of(context).size.width * 0.2,
       height: MediaQuery.of(context).size.height * 0.04,
-      margin: const EdgeInsets.all(8.0),
+      
+      // padding: EdgeInsets.all(8.0),
       child: Center(
         child: Icon(Icons.add,color: Colors.white,)
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:splitb/screens/createnewdebtor.dart';
+import 'package:splitb/screens/createnewdebtorgroup.dart';
 import 'package:splitb/screens/debtdetailscreen.dart';
 import 'package:splitb/screens/homescreen.dart';
 import 'package:splitb/screens/loginscreen.dart';
@@ -10,7 +11,6 @@ import 'package:splitb/screens/onboarding_screen.dart';
 import 'package:splitb/screens/signupscreen.dart';
 import 'package:splitb/screens/splashscreens.dart';
 import 'constants.dart';
-
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -27,12 +27,18 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case ONBOARDINGSCREEN:
       return MaterialPageRoute(builder: (context) => Onboarding());
     case PROFILESCREEN:
-      return MaterialPageRoute(builder: (context)=>ProfileScreen());
+      return MaterialPageRoute(builder: (context) => ProfileScreen());
     case CREATENEWDEBTORSCREEN:
-      return MaterialPageRoute(builder: (context)=>CreateNewDebtor());
+      return MaterialPageRoute(builder: (context) => CreateNewDebtor());
+    case CREATENEWDEBTORGROUPSCREEN:
+      return MaterialPageRoute(builder: (context) => CreateNewDebtorGroup());
+
     case DEBTDETAILSCREEN:
-    var title = settings.arguments as String;
-      return MaterialPageRoute(builder: (context)=>DebtDetailScreen(title: title,));
+      var title = settings.arguments as String;
+      return MaterialPageRoute(
+          builder: (context) => DebtDetailScreen(
+                title: title,
+              ));
     default:
       return MaterialPageRoute(
         builder: (context) => Scaffold(

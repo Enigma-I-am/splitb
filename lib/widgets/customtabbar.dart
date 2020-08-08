@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget child;
   final double height;
-  final Widget addIcon;
+  
 
   CustomAppBar(
-      {@required this.child, @required this.height, @required this.addIcon});
+      {@required this.child, @required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Row(children: <Widget>[
               child,
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: addIcon,
-              ),
+              
             ]),
           ],
         ),

@@ -22,10 +22,11 @@ class AuthViewmodel extends BaseViewModel {
     setBusy(true);
     var result = await _authenticationService.logInUser(
         email: email, password: password);
+        
     setBusy(false);
 
     if (result is bool) {
-      print(result);
+      // print(result);
       if (result) {
         _navigationService.navigateAndClearHistory(HOMESCREEN);
       }
@@ -39,7 +40,7 @@ class AuthViewmodel extends BaseViewModel {
     setBusy(false);
 
     if (result is bool) {
-      print(result);
+      // print(result);
       if (result) {
         _navigationService.navigateAndClearHistory(HOMESCREEN);
       }

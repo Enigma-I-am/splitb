@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitb/utils/margin.dart';
 
 
 class AvaterWidget extends StatelessWidget {
@@ -8,8 +9,8 @@ class AvaterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.2,
-      height: MediaQuery.of(context).size.height * 0.2,
+      width: 100,
+      height: 100,
       margin: const EdgeInsets.all(8.0),
       child: Card(
         color: Colors.white,
@@ -18,7 +19,13 @@ class AvaterWidget extends StatelessWidget {
         ),
         borderOnForeground: true,
         child: Center(
-          child: Image.asset("assets/images/femaleavatar.png")
+          child: Column(
+            children: <Widget>[
+              Image.asset("assets/images/femaleavatar.png"),
+              YMargin(5),
+              Text(title,style: TextStyle(color: Colors.black),)
+            ],
+          )
         ),
       ),
     );

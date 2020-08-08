@@ -1,8 +1,10 @@
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:splitb/constants.dart';
 import 'package:splitb/providers.dart';
 import 'package:splitb/utils/theme.dart';
+import 'package:splitb/widgets/addwidget.dart';
 import 'package:splitb/widgets/customtabbar.dart';
 import 'package:splitb/widgets/group_friend_widget.dart';
 
@@ -25,6 +27,8 @@ class _FriendGroupBottomSheetScreenState
     Tab(text: "groups"),
   ];
 
+  List<String> names = ["Chisom", "Odera", "Mum", "KeKe"];
+  List<String> groupNames = ["Hike", "Travel", "Project", "Dinner"];
   @override
   void initState() {
     super.initState();
@@ -33,6 +37,7 @@ class _FriendGroupBottomSheetScreenState
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Material(
       clipBehavior: Clip.antiAlias,
       borderRadius: BorderRadius.only(
@@ -43,27 +48,6 @@ class _FriendGroupBottomSheetScreenState
         length: 2,
         child: Scaffold(
           appBar: CustomAppBar(
-            addIcon: InkWell(
-              onTap: () {
-                homescreenVm
-                    .read(context)
-                    .navigateTocreateNewGroupOrFriendScreen();
-              },
-              child: Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: HexColor.fromHex("#050A30"),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                    color: HexColor.fromHex("#050A30"),
-                  ),
-                ),
-                child: Text(
-                  "Add group / friend",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
             child: TabBar(
               // labelPadding: EdgeInsets.only(left: 8, right: 8),
               // indicatorPadding:EdgeInsets.only(left: 16, right: 16) ,
@@ -79,34 +63,66 @@ class _FriendGroupBottomSheetScreenState
               tabs: _tabs.map((label) => label).toList(),
               controller: _tabController,
             ),
-            height: MediaQuery.of(context).size.height * 0.12,
+            height: MediaQuery.of(context).size.height * 0.15,
           ),
           backgroundColor: Colors.green,
           body: Stack(
             children: <Widget>[
               TabBarView(controller: _tabController, children: <Widget>[
-                GridView.count(
+                GridView.builder(
                   controller: widget.scrollController,
-                  crossAxisCount: 3,
-                  children: List.generate(
-                      4,
-                      (index) => GroupFriendWidget(
-                            title: "Chisom $index",
-                            navigateToDetails: () =>
-                              homescreenVm.read(context).navigateToDebtDetail("Chisom $index")
-                            ,
-                          )),
-                ),
-                GridView.count(
+                    itemCount: names.length + 1,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount:
+                            (orientation == Orientation.portrait) ? 3 : 3),
+                    itemBuilder: (context, index) {
+                      if (index == names.length) {
+                        return InkWell(
+                            onTap: () {
+                              homescreenVm
+                                  .read(context)
+                                  .navigateTocreateNewGroupOrFriendScreen(
+                                      CREATENEWDEBTORSCREEN);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: AddWidget(),
+                            ));
+                      }
+                      return GroupFriendWidget(
+                        title: names[index],
+                        navigateToDetails: () => homescreenVm
+                            .read(context)
+                            .navigateToDebtDetail(names[index]),
+                      );
+                    }),
+                GridView.builder(
                   controller: widget.scrollController,
-                  crossAxisCount: 3,
-                  children: List.generate(
-                      4,
-                      (index) => GroupFriendWidget(
-                            title: "Flatmate $index",
-                            navigateToDetails: ()=> homescreenVm.read(context).navigateToDebtDetail("Flatmate $index"),
-                          )),
-                ),
+                    itemCount: groupNames.length + 1,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount:
+                            (orientation == Orientation.portrait) ? 3 : 3),
+                    itemBuilder: (context, index) {
+                      if (index == groupNames.length) {
+                        return InkWell(
+                            onTap: () {
+                              homescreenVm
+                                  .read(context)
+                                  .navigateTocreateNewGroupOrFriendScreen(
+                                      CREATENEWDEBTORGROUPSCREEN);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: AddWidget(),
+                            ));
+                      }
+                      return GroupFriendWidget(
+                        title: groupNames[index],
+                        navigateToDetails: () => homescreenVm
+                            .read(context)
+                            .navigateToDebtDetail(groupNames[index]),
+                      );
+                    }),
               ]),
             ],
           ),

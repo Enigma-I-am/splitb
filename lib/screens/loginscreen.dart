@@ -81,13 +81,13 @@ class LoginScreen extends HookWidget {
                 onPressed: () {
                   var formState = _formKey.currentState;
                   if (formState.validate()) {
-                    final snackBar =
-                        SnackBar(content: Text('Incorrect password!'));
+                    // final snackBar =
+                    //     SnackBar(content: Text('Incorrect password!'));
                     formState.save();
                     
                      _viewmodel.logUserIn(email: email, password: password);
                
-                      Scaffold.of(context).showSnackBar(snackBar);
+                      // Scaffold.of(context).showSnackBar(snackBar);
             
                   }
                 },

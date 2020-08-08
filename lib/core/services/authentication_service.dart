@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splitb/core/models/usermodel.dart';
 import 'package:splitb/core/services/firestore_service.dart';
 import 'package:splitb/providers.dart';
@@ -33,6 +34,8 @@ class AuthenticationService {
     try {
       var authResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+      var userId = authResult.user.uid;
+      saveUid(userId);
       await getUserDetails(authResult.user);
       return authResult.user != null;
     } catch (e) {
@@ -47,6 +50,8 @@ class AuthenticationService {
       var authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       var uid = authResult.user.uid;
+            var userId = authResult.user.uid;
+      saveUid(userId);
       print("ID: $uid");
 
       await firestoreService.addUserToUserCollection(
@@ -67,5 +72,19 @@ class AuthenticationService {
     if (user != null) {
       _currentUser = await firestoreService.getUser(user.uid);
     }
+  }
+
+  Future saveUid(String uid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var uid = prefs.getString('userId');
+    if(uid == null){
+      prefs.setString('userId', uid);
+    }
+    
+  }
+
+  Future getUid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userId');
   }
 }

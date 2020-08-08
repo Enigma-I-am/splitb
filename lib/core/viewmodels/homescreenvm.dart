@@ -16,8 +16,8 @@ class HomeScreenVM extends BaseViewModel {
     await _navigationService.navigateTo(PROFILESCREEN);
   }
 
-  void navigateTocreateNewGroupOrFriendScreen() async {
-    await _navigationService.navigateTo(CREATENEWDEBTORSCREEN);
+  void navigateTocreateNewGroupOrFriendScreen(String route) async {
+    await _navigationService.navigateTo(route);
   }
 
   void navigateToDebtDetail(String title) async {
