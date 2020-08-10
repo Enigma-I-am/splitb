@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:splitb/providers.dart';
 import 'package:splitb/utils/imageclipper.dart';
 import 'package:splitb/utils/margin.dart';
 import 'package:splitb/utils/theme.dart';
@@ -7,6 +10,15 @@ import 'package:splitb/utils/theme.dart';
 class ProfileScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    final vm = useProvider(profileVM);
+    final store = useMemoized(() => vm);
+    // ignore: missing_return
+    useEffect(() {
+      print("effect");
+      Future.microtask(() => store.getUserDetails());
+      // Future.microtask(() => store.listenToGroups());
+    }, []);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -32,17 +44,50 @@ class ProfileScreen extends HookWidget {
           ),
           YMargin(MediaQuery.of(context).size.height * 0.05),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal:16.0),
-            child: Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Container(
-              
-                height: MediaQuery.of(context).size.height * 0.35,
-                width: MediaQuery.of(context).size.width ,
-              ),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Spacer(),
+                    Icon(Icons.portrait),
+                    XMargin(10),
+                    Text(
+                      "Nwagba Okechukwu",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+                YMargin(MediaQuery.of(context).size.height * 0.05),
+                Row(
+                  children: <Widget>[
+                    Spacer(),
+                    Icon(Icons.mail_outline),
+                    XMargin(10),
+                    Text(
+                      "nwagba001@gmail.com",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+                YMargin(MediaQuery.of(context).size.height * 0.05),
+                Row(
+                  children: <Widget>[
+                    Spacer(),
+                    Icon(Icons.phone),
+                    XMargin(10),
+                    Text(
+                      "07056322074",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Spacer()
+                  ],
+                ),
+                YMargin(MediaQuery.of(context).size.height * 0.05),
+              ],
             ),
           ),
           YMargin(MediaQuery.of(context).size.height * 0.03),
@@ -50,7 +95,9 @@ class ProfileScreen extends HookWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: FlatButton(
               color: Colors.green,
-              onPressed: () {},
+              onPressed: () {
+                vm.navigateToEditProfile(vm.user);
+              },
               child: Text(
                 "Update",
                 style: TextStyle(color: Colors.white),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:splitb/providers.dart';
 import 'package:splitb/utils/margin.dart';
@@ -94,25 +95,26 @@ class CreateNewDebtor extends HookWidget {
                 ],
               ),
               YMargin(30),
-              FlatButton(
-                color: Colors.green,
-                onPressed: () {
-                  var formState = _formKey.currentState;
-                  if (formState.validate()) {
-                    formState.save();
-                    _viewmodel.addFriend(
-                        name: _name,
-                        amountOwed: _amount,
-                        phoneNumber: _phoneNumber);
-                  }
-                },
-                child: Text(
-                  "Create",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              )
+              _viewmodel.busy == true
+                  ? SpinKitPulse(
+                      color: Colors.green,
+                    )
+                  : FlatButton(
+                      color: Colors.green,
+                      onPressed: () {
+                        var formState = _formKey.currentState;
+                        if (formState.validate()) {
+                          formState.save();
+                          _viewmodel.addFriend(_name, _amount, _phoneNumber);
+                        }
+                      },
+                      child: Text(
+                        "Create",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
             ],
           ),
         ),

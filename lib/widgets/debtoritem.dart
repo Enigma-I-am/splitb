@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:splitb/core/models/group_friend_model.dart';
+
 import 'package:splitb/utils/imageclipper.dart';
 import 'package:splitb/utils/margin.dart';
 
 class DebtorItem extends HookWidget {
+  final FriendGroupModel model;
+  final String amountOwed;
+  final String totalExpense;
+  DebtorItem({@required this.model, @required this.amountOwed, @required this.totalExpense});
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -33,12 +39,12 @@ class DebtorItem extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "chisom owes you",
+                  "${model.friendName}",
                   style: TextStyle(
                       color: Colors.grey[50], fontWeight: FontWeight.w200),
                 ),
                 Text(
-                  "#400",
+                  "#$amountOwed",
                   style: TextStyle(
                       color: Colors.grey[300],
                       fontSize: 20,
@@ -55,7 +61,6 @@ class DebtorItem extends HookWidget {
         ),
         // height: MediaQuery.of(context).size.height * 0.17,
       ),
-      
       secondaryActions: <Widget>[
         IconSlideAction(
           caption: 'remind',

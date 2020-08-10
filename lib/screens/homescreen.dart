@@ -12,6 +12,12 @@ class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final _viewmodel = useProvider(homescreenVm);
+
+    // ignore: missing_return
+    useEffect(() {
+      _viewmodel.listenToExpenses();
+      // Future.microtask(() => _viewmodel.loadExpense());
+    }, []);
     return Scaffold(
         backgroundColor: HexColor.fromHex("#050A30"),
         body: Stack(
@@ -35,42 +41,40 @@ class HomeScreen extends HookWidget {
                       Spacer(),
                       Column(
                         children: <Widget>[
-                          InkWell(
-                              onTap: () => _viewmodel.navigateToProfileScreen(),
-                              child: Hero(
-                                tag: "img",
-                                                              child: ClipOval(
-                                  clipper: ImageClipper(),
-                                  child: Image.network(
-                                    "https://pbs.twimg.com/profile_images/1257072406092546048/UG-tTGNJ_400x400.jpg",
-                                    width: MediaQuery.of(context).size.height *
-                                        0.05,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.05,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              )),
+                          Hero(
+                            tag: "img",
+                            child: ClipOval(
+                              clipper: ImageClipper(),
+                              child: Image.asset(
+                                'assets/images/login.png',
+                                fit: BoxFit.cover,
+                                width:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                              ),
+                            ),
+                          ),
                           YMargin(5),
-                          Text(
-                            "profile",
-                            style: TextStyle(color: Colors.white),
-                          )
+                          // Text(
+                          //   "profile",
+                          //   style: TextStyle(color: Colors.white),
+                          // )
                         ],
                       ),
                     ],
                   ),
-                  YMargin(MediaQuery.of(context).size.height * 0.02),
+                  YMargin(MediaQuery.of(context).size.height * 0.05),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Total Balance",
+                        "Total Expense",
                         style: TextStyle(color: Colors.grey[300]),
                       ),
                       Text(
-                        "\$1274",
+                        "#${_viewmodel.expense.totalExpense}",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -78,7 +82,7 @@ class HomeScreen extends HookWidget {
                       ),
                     ],
                   ),
-                  YMargin(MediaQuery.of(context).size.height * 0.04),
+                  YMargin(MediaQuery.of(context).size.height * 0.06),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +96,7 @@ class HomeScreen extends HookWidget {
                             style: TextStyle(color: Colors.grey[300]),
                           ),
                           Text(
-                            "\$1274",
+                            "#${_viewmodel.expense.youROwed}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -110,7 +114,7 @@ class HomeScreen extends HookWidget {
                             style: TextStyle(color: Colors.grey[300]),
                           ),
                           Text(
-                            "\$1274",
+                            "#3000",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -121,24 +125,6 @@ class HomeScreen extends HookWidget {
                       Spacer(),
                     ],
                   ),
-                  YMargin(MediaQuery.of(context).size.height * 0.03),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Expense this month",
-                        style: TextStyle(color: Colors.grey[300]),
-                      ),
-                      Text(
-                        "\$1274",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontSize: 20),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:splitb/core/models/friendmodel.dart';
+
 import 'package:splitb/core/models/group_friend_model.dart';
 import 'package:splitb/providers.dart';
 import 'package:splitb/utils/margin.dart';
@@ -131,21 +132,21 @@ class _CreateNewDebtorGroupState extends State<CreateNewDebtorGroup> {
                         ),
                       ),
               ),
-              YMargin(20),
+              YMargin(5),
               Consumer((context, watch) {
                 final viewmodel = watch(createDebtorGroupVm);
-                return FlatButton(
+                return viewmodel.busy == true ? SpinKitPulse(color: Colors.green,) : FlatButton(
                   color: Colors.green,
                   onPressed: () async {
                     var formState = _formKey.currentState;
                     if (formState.validate()) {
                       formState.save();
 
-                      var amountOwedPrePerson = _amount / friends.length;
+                      var amountOwedPrePerson = _amount / friends.length + 1;
                       print(friends[0].friendName);
                       
                       await viewmodel.addGroup(
-                          friends, _name, amountOwedPrePerson.toInt());
+                          friends, _name, amountOwedPrePerson.toInt(),_amount);
                     }
                   },
                   child: Text(

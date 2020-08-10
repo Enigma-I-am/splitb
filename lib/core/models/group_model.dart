@@ -6,21 +6,25 @@ class GroupModel {
   List<FriendGroupModel> group;
   String userId;
   String groupName;
-  int amount;
+  int amountPerPerson;
+  int totalAmount;
   final DocumentReference reference;
 
-  GroupModel(
-      {@required this.group,
-      @required this.userId,
-      @required this.groupName,
-      @required this.amount,
-      this.reference});
+  GroupModel({
+    @required this.group,
+    @required this.userId,
+    @required this.groupName,
+    @required this.amountPerPerson,
+    @required this.totalAmount,
+    this.reference,
+  });
 
   GroupModel.fromMap(Map<dynamic, dynamic> map, {this.reference})
-      : group = map["group"],
+      : group = [...map["group"].map((i) => FriendGroupModel.fromMap(i))],
         userId = map["userId"],
         groupName = map["groupName"],
-        amount = map["amount"];
+        amountPerPerson = map["amountPerPerson"],
+        totalAmount = map["totalAmount"];
 
   GroupModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
@@ -29,7 +33,8 @@ class GroupModel {
     Map<String, dynamic> data = Map<String, dynamic>();
     data["group"] = group.map((i) => i.toJson()).toList();
     data["userId"] = userId;
-    data["amount"] = amount;
+    data["amountPerPerson"] = amountPerPerson;
+    data["totalAmount"] = totalAmount;
     data["groupName"] = groupName;
     return data;
   }

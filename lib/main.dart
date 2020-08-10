@@ -23,7 +23,7 @@ class MyApp extends HookWidget {
       onGenerateRoute: generateRoute,
       initialRoute: SPLASHSCREEN,
       title: 'Flutter Demo',
-      theme: darkThemeData(context),
+      theme: themeData(context),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );

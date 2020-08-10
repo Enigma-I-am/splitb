@@ -6,15 +6,15 @@ class UserModel {
   String firstName;
   String lastName;
   String email;
-  int level;
+  String phoneNumber;
   final DocumentReference reference;
 
   UserModel({
     @required this.id,
-    @required this.email,
-    this.firstName,
-    this.lastName,
-    this.level,
+     this.email,
+    @required this.firstName,
+    @required this.lastName,
+    this.phoneNumber,
     this.reference,
   });
 
@@ -24,7 +24,7 @@ class UserModel {
         firstName = map["firstName"],
         lastName = map["lastName"],
         email = map["email"],
-        level = map["level"];
+        phoneNumber = map["phoneNumber"];
 
   // fromSnapshot DocumentSnapshot snapshot
   UserModel.fromSnapshot(DocumentSnapshot snapshot)
@@ -37,7 +37,7 @@ class UserModel {
     data["firstName"] = firstName;
     data["lastName"] = lastName;
     data["email"] = email;
-    data["level"] = level;
+    data["phoneNumber"] = phoneNumber;
     return data;
   }
 }

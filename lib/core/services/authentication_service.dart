@@ -45,7 +45,7 @@ class AuthenticationService {
 
   // Create new User with email and password
   Future createUserWithEmailAndPassword(
-      {@required String email, @required String password}) async {
+      {@required String email, @required String password,@required String firstname, @required String lastname, @required phoneNumber}) async {
     try {
       var authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -58,6 +58,7 @@ class AuthenticationService {
         "Users",
         uid,
         email,
+        firstname,lastname,phoneNumber
       );
       await getUserDetails(authResult.user);
 
@@ -83,7 +84,7 @@ class AuthenticationService {
     
   }
 
-  Future getUid() async {
+  Future<String> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('userId');
   }

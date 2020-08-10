@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:splitb/constants.dart';
 import 'package:splitb/core/services/authentication_service.dart';
+
 import 'package:splitb/core/services/navigation_service.dart';
 import 'package:splitb/core/viewmodels/basevm.dart';
 import 'package:splitb/providers.dart';
@@ -22,7 +23,7 @@ class AuthViewmodel extends BaseViewModel {
     setBusy(true);
     var result = await _authenticationService.logInUser(
         email: email, password: password);
-        
+
     setBusy(false);
 
     if (result is bool) {
@@ -33,10 +34,19 @@ class AuthViewmodel extends BaseViewModel {
     }
   }
 
-  Future createUser({@required String email, @required String password}) async {
+  Future createUser(
+      {@required String email,
+      @required String password,
+      @required String firstname,
+      @required String lastname,
+      @required String phoneNumber}) async {
     setBusy(true);
     var result = await _authenticationService.createUserWithEmailAndPassword(
-        email: email, password: password);
+        email: email,
+        password: password,
+        firstname: firstname,
+        lastname: lastname,
+        phoneNumber: phoneNumber);
     setBusy(false);
 
     if (result is bool) {

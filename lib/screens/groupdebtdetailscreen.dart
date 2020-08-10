@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:splitb/core/models/group_model.dart';
 import 'package:splitb/utils/margin.dart';
 import 'package:splitb/utils/theme.dart';
 import 'package:splitb/widgets/debtoritem.dart';
 
-class DebtDetailScreen extends HookWidget {
-  final String title;
-  DebtDetailScreen({@required this.title});
+class GroupDebtDetailScreen extends HookWidget {
+  final GroupModel model;
+  GroupDebtDetailScreen({@required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class DebtDetailScreen extends HookWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          title,
+          model.groupName,
           style: TextStyle(color: Colors.white),
         ),
         elevation: 0.0,
@@ -50,11 +51,11 @@ class DebtDetailScreen extends HookWidget {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            "\$1274",
+                            "#${model.totalAmount}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
-                                fontSize: 60),
+                                fontSize: 50),
                           ),
                         ],
                       ),
@@ -63,7 +64,8 @@ class DebtDetailScreen extends HookWidget {
                     CircularPercentIndicator(
                       radius: 200.0,
                       lineWidth: 15.0,
-                      percent: 0.4,animation: true,
+                      percent: 0.4,
+                      animation: true,
                       center: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -71,10 +73,14 @@ class DebtDetailScreen extends HookWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("paid",style: TextStyle(color: Colors.white),),
                                 Text(
-                                  "\$2000",
-                                  style: TextStyle(color: Colors.white,fontSize: 25),
+                                  "paid",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                Text(
+                                  "#0",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 25),
                                 ),
                               ],
                             ),
@@ -90,9 +96,15 @@ class DebtDetailScreen extends HookWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("\$800",
-                                    style: TextStyle(color: Colors.red,fontSize: 25),),
-                                    Text("left",style: TextStyle(color: Colors.red),)
+                                Text(
+                                  "${model.totalAmount}",
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 25),
+                                ),
+                                Text(
+                                  "left",
+                                  style: TextStyle(color: Colors.red),
+                                )
                               ],
                             )
                           ]),
@@ -114,10 +126,16 @@ class DebtDetailScreen extends HookWidget {
           children: <Widget>[
             Expanded(
                 child: ListView(
+              children: model.group
+                  .map((e) => DebtorItem(
+                      model: e,
+                      amountOwed: "${model.amountPerPerson}",
+                      totalExpense: "${model.totalAmount}"))
+                  .toList(),
               // padding: EdgeInsets.zero,
-              children: Colors.primaries.map((color) {
-                return DebtorItem();
-              }).toList(),
+              // children: Colors.primaries.map((color) {
+              //   return DebtorItem();
+              // }).toList(),
             )),
           ],
         ),

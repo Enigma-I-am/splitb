@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:splitb/core/models/friendmodel.dart';
+import 'package:splitb/core/models/group_model.dart';
+import 'package:splitb/core/models/usermodel.dart';
 import 'package:splitb/screens/createnewdebtor.dart';
 import 'package:splitb/screens/createnewdebtorgroup.dart';
-import 'package:splitb/screens/debtdetailscreen.dart';
+import 'package:splitb/screens/editprofile.dart';
+import 'package:splitb/screens/groupdebtdetailscreen.dart';
+import 'package:splitb/screens/frienddebtdetailscreen.dart';
 import 'package:splitb/screens/homescreen.dart';
 import 'package:splitb/screens/loginscreen.dart';
 import 'package:splitb/screens/profilescreen.dart';
@@ -32,12 +37,24 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => CreateNewDebtor());
     case CREATENEWDEBTORGROUPSCREEN:
       return MaterialPageRoute(builder: (context) => CreateNewDebtorGroup());
-
-    case DEBTDETAILSCREEN:
-      var title = settings.arguments as String;
+    case FRIENDDEBTDETAILSCREEN:
+      var friendModel = settings.arguments as FriendModel;
       return MaterialPageRoute(
-          builder: (context) => DebtDetailScreen(
-                title: title,
+          builder: (context) => FriendDebtDetailScreen(
+                model: friendModel,
+              ));
+    case GROUPDEBTDETAILSCREEN:
+      var title = settings.arguments as GroupModel;
+      return MaterialPageRoute(
+          builder: (context) => GroupDebtDetailScreen(
+                model: title,
+              ));
+
+    case EDITPROFILESCREEN:
+      var profileModel = settings.arguments as UserModel;
+      return MaterialPageRoute(
+          builder: (context) => EditProfile(
+                model: profileModel,
               ));
     default:
       return MaterialPageRoute(

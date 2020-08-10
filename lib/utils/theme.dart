@@ -8,7 +8,8 @@ themeData(context) => ThemeData(
       textTheme: GoogleFonts.ubuntuTextTheme(Theme.of(context).textTheme),
       primarySwatch: Colors.green,
       primaryColor: Colors.green,
-      brightness: Brightness.light,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: HexColor.fromHex("#050A30"),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
 

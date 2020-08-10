@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:splitb/core/models/expensemodel.dart';
 import 'package:splitb/core/models/group_friend_model.dart';
 import 'package:splitb/core/models/group_model.dart';
 import 'package:splitb/core/services/authentication_service.dart';
@@ -17,12 +18,21 @@ class CreateNewDebtorGroupViewmodel extends BaseViewModel {
     _navigationService = ref.read(navService);
     _authenticationService = ref.read(authService);
   }
-  Future addGroup(List<FriendGroupModel> group, String groupName, int amount) async {
+  Future addGroup(List<FriendGroupModel> group, String groupName, int amount,
+      int totalAmount) async {
     setBusy(true);
     var userID = await _authenticationService.getUid();
-    var model = GroupModel(group: group,
-         userId: userID, groupName: groupName, amount: amount);
-    await _firestoreServcie.addGroup(model);
+    var model = GroupModel(
+        group: group,
+        userId: userID,
+        groupName: groupName,
+        amountPerPerson: amount,
+        totalAmount: totalAmount);
+    await _firestoreServcie.addGroup(model).then((value)async{
+    await _firestoreServcie
+        .postExpense(ExpenseModel(totalExpense: totalAmount, youROwed: 0));
+    });
+
     _navigationService.goBack();
     setBusy(false);
     // print(_friends[0].amountOwed);

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:splitb/providers.dart';
 import 'package:splitb/utils/margin.dart';
 
 // ignore: must_be_immutable
 class SignUpScreen extends HookWidget {
-  String email, password, confirmPassword;
-  final _formKey = GlobalKey<FormState>();
-
+  static final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    String email, password, confirmPassword, _firstName, _lastName, _phoneNumber;
+    
     final _viewmodel = useProvider(startVm);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -25,7 +27,7 @@ class SignUpScreen extends HookWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: ListView(
             children: <Widget>[
-              YMargin(130),
+              YMargin(MediaQuery.of(context).size.height * 0.05),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,6 +49,49 @@ class SignUpScreen extends HookWidget {
                 ],
               ),
               YMargin(20),
+              TextFormField(
+                style: TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "please enter your first name";
+                  }
+                  return null;
+                },
+                onSaved: (input) => _firstName = input,
+                decoration: InputDecoration(
+                  labelText: "firstname",
+                  // suffix: suffix,
+                ),
+              ),
+              TextFormField(
+                style: TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "please enter your last name";
+                  }
+                  return null;
+                },
+                onSaved: (input) => _lastName = input,
+                decoration: InputDecoration(
+                  labelText: "lastname",
+                  // suffix: suffix,
+                ),
+              ),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                style: TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "please enter your phone number";
+                  }
+                  return null;
+                },
+                onSaved: (input) => _phoneNumber = input,
+                decoration: InputDecoration(
+                  labelText: "phone number",
+                  // suffix: suffix,
+                ),
+              ),
               TextFormField(
                 style: TextStyle(color: Colors.white),
                 validator: (value) {
@@ -92,16 +137,15 @@ class SignUpScreen extends HookWidget {
                 ),
               ),
               YMargin(30),
-              FlatButton(
-                onPressed: () {
+             _viewmodel.busy == true?SpinKitPulse(color: Colors.green,): FlatButton(
+                onPressed: () async{
                   var formState = _formKey.currentState;
                   if (formState.validate()) {
                     final snackBar =
                         SnackBar(content: Text('Incorrect password!'));
                     formState.save();
                     if (password == confirmPassword) {
-                      _viewmodel.createUser(email: email ,password: password);
-                      
+                      await _viewmodel.createUser(email: email, password: password,firstname: _firstName,lastname: _lastName,phoneNumber:_phoneNumber);
                     } else {
                       Scaffold.of(context).showSnackBar(snackBar);
                     }

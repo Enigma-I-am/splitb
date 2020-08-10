@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "908368930640",
+    "firebase_url": "https://splitb.firebaseio.com",
+    "project_id": "splitb",
+    "storage_bucket": "splitb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908368930640:android:bcc636a078468bce7bee55",
+        "android_client_info": {
+          "package_name": "com.example.splitb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908368930640-9bs8a2m05q2fp15o99m9col0nvd0a9s4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyBUXSt3nCjX1FspwiQiZFuD3_RO_IcNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908368930640-9bs8a2m05q2fp15o99m9col0nvd0a9s4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "908368930640-adjhmct6rkpl54cns4l5fg5ivs2hnm6p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.splitb"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

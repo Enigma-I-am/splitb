@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:splitb/core/models/expensemodel.dart';
 import 'package:splitb/core/models/friendmodel.dart';
 import 'package:splitb/core/services/authentication_service.dart';
 import 'package:splitb/core/services/firestore_service.dart';
@@ -13,28 +13,27 @@ class CreateDebtorViewmodel extends BaseViewModel {
   FirestoreServcie _firestoreServcie;
   AuthenticationService _authenticationService;
 
-
-
   CreateDebtorViewmodel(this.ref) {
     _firestoreServcie = ref.read(fireStoreService);
     _navigationService = ref.read(navService);
     _authenticationService = ref.read(authService);
   }
 
-  Future addFriend(
-      {@required String name,
-      @required int amountOwed,
-      @required String phoneNumber}) async {
+  Future addFriend(String name, int amountOwed, String phoneNumber) async {
     setBusy(true);
     var userID = await _authenticationService.getUid();
-    await _firestoreServcie.addFriend(FriendModel(
+    var model = FriendModel(
         friendName: name,
         amountOwed: amountOwed,
         phoneNumber: phoneNumber,
-        userId: userID));
+        userId: userID);
+    var expenseModel =
+        ExpenseModel(totalExpense: amountOwed, youROwed: amountOwed);
+    await _firestoreServcie.addFriend(model).then((value) async {
+      await _firestoreServcie.postExpense(expenseModel);
+    });
+
     _navigationService.goBack();
     setBusy(false);
   }
-
-
 }

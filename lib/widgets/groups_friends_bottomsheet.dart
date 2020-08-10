@@ -1,5 +1,6 @@
 import 'package:dot_tab_indicator/dot_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:splitb/constants.dart';
 import 'package:splitb/providers.dart';
@@ -8,36 +9,31 @@ import 'package:splitb/widgets/addwidget.dart';
 import 'package:splitb/widgets/customtabbar.dart';
 import 'package:splitb/widgets/group_friend_widget.dart';
 
-class FriendGroupBottomSheetScreen extends StatefulWidget {
+class FriendGroupBottomSheetScreen extends HookWidget {
   final ScrollController scrollController;
   FriendGroupBottomSheetScreen({@required this.scrollController});
 
-  @override
-  _FriendGroupBottomSheetScreenState createState() =>
-      _FriendGroupBottomSheetScreenState();
-}
-
-class _FriendGroupBottomSheetScreenState
-    extends State<FriendGroupBottomSheetScreen>
-    with SingleTickerProviderStateMixin {
-  TabController _tabController;
-
-  List<Tab> _tabs = <Tab>[
-    Tab(text: "friends"),
-    Tab(text: "groups"),
+  final List<Tab> _tabs = <Tab>[
+    // Tab(text: "friends"),
+    Tab(text: "groups / activities"),
   ];
 
-  List<String> names = ["Chisom", "Odera", "Mum", "KeKe"];
-  List<String> groupNames = ["Hike", "Travel", "Project", "Dinner"];
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: _tabs.length);
-  }
+  // List<String> groupNames = ["Hike", "Travel", "Project", "Dinner"];
 
   @override
   Widget build(BuildContext context) {
+    final _tabController = useTabController(initialLength: 1);
     final orientation = MediaQuery.of(context).orientation;
+    final vm = useProvider(bottomSheetVM);
+
+    final store = useMemoized(() => vm);
+    // ignore: missing_return
+    useEffect(() {
+      print("effect");
+      Future.microtask(() => store.listenTofriends());
+      Future.microtask(() => store.listenToGroups());
+    }, []);
+
     return Material(
       clipBehavior: Clip.antiAlias,
       borderRadius: BorderRadius.only(
@@ -45,7 +41,7 @@ class _FriendGroupBottomSheetScreenState
         topRight: Radius.circular(50),
       ),
       child: DefaultTabController(
-        length: 2,
+        length: 1,
         child: Scaffold(
           appBar: CustomAppBar(
             child: TabBar(
@@ -69,41 +65,42 @@ class _FriendGroupBottomSheetScreenState
           body: Stack(
             children: <Widget>[
               TabBarView(controller: _tabController, children: <Widget>[
+                // GridView.builder(
+                //         controller: scrollController,
+                //         itemCount: (vm.friends.length + 1),
+                //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //             crossAxisCount:
+                //                 (orientation == Orientation.portrait) ? 3 : 3),
+                //         itemBuilder: (context, index) {
+                //           if (index == vm.friends.length) {
+                //             return InkWell(
+                //                 onTap: () {
+                //                   homescreenVm
+                //                       .read(context)
+                //                       .navigateTocreateNewGroupOrFriendScreen(
+                //                           CREATENEWDEBTORSCREEN);
+                //                 },
+                //                 child: Padding(
+                //                   padding: const EdgeInsets.all(16.0),
+                //                   child: AddWidget(),
+                //                 ));
+                //           }
+                //           return GroupFriendWidget(
+                //             title: vm.friends[index].friendName,
+                //             navigateToDetails: () => homescreenVm
+                //                 .read(context)
+                //                 .navigateToFriendDebtDetail(
+                //                     vm.friends[index]),
+                //           );
+                //         }),
                 GridView.builder(
-                  controller: widget.scrollController,
-                    itemCount: names.length + 1,
+                    controller: scrollController,
+                    itemCount: (vm.groups.length + 1),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount:
                             (orientation == Orientation.portrait) ? 3 : 3),
                     itemBuilder: (context, index) {
-                      if (index == names.length) {
-                        return InkWell(
-                            onTap: () {
-                              homescreenVm
-                                  .read(context)
-                                  .navigateTocreateNewGroupOrFriendScreen(
-                                      CREATENEWDEBTORSCREEN);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: AddWidget(),
-                            ));
-                      }
-                      return GroupFriendWidget(
-                        title: names[index],
-                        navigateToDetails: () => homescreenVm
-                            .read(context)
-                            .navigateToDebtDetail(names[index]),
-                      );
-                    }),
-                GridView.builder(
-                  controller: widget.scrollController,
-                    itemCount: groupNames.length + 1,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount:
-                            (orientation == Orientation.portrait) ? 3 : 3),
-                    itemBuilder: (context, index) {
-                      if (index == groupNames.length) {
+                      if (index == vm.groups.length) {
                         return InkWell(
                             onTap: () {
                               homescreenVm
@@ -117,10 +114,10 @@ class _FriendGroupBottomSheetScreenState
                             ));
                       }
                       return GroupFriendWidget(
-                        title: groupNames[index],
+                        title: vm.groups[index].groupName,
                         navigateToDetails: () => homescreenVm
                             .read(context)
-                            .navigateToDebtDetail(groupNames[index]),
+                            .navigateToGroupDebtDetail(vm.groups[index]),
                       );
                     }),
               ]),
@@ -131,3 +128,4 @@ class _FriendGroupBottomSheetScreenState
     );
   }
 }
+

@@ -8,6 +8,6 @@ const ONBOARDINGSCREEN = 'onboardingScreen';
 const SPLASHSCREEN = 'splashscreen';
 const CREATENEWDEBTORSCREEN = 'createNewDebtor';
 const CREATENEWDEBTORGROUPSCREEN = 'createNewDebtorGroup';
-const DEBTDETAILSCREEN = 'debtDetail';
-
-
+const GROUPDEBTDETAILSCREEN = 'debtDetail';
+const FRIENDDEBTDETAILSCREEN = 'frienddebtdetailscreen';
+const EDITPROFILESCREEN = 'editProfileScreen';

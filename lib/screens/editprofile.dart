@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import 'package:splitb/core/models/usermodel.dart';
 import 'package:splitb/providers.dart';
 import 'package:splitb/utils/margin.dart';
 
-// ignore: must_be_immutable
-class LoginScreen extends HookWidget {
-  String password, email;
-  final _formKey = GlobalKey<FormState>();
+class EditProfile extends HookWidget {
+  final UserModel model;
+  EditProfile({@required this.model});
   @override
   Widget build(BuildContext context) {
-    final _viewmodel = useProvider(startVm);
+    String _firstName, _lastName;
+    final _formKey = GlobalKey<FormState>();
+    final _viewmodel = useProvider(profileVM);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -32,14 +33,14 @@ class LoginScreen extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Log in and continue keeping",
+                    "Create an account now and start",
                     style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w600,
                         fontSize: 20),
                   ),
                   Text(
-                    "track of your debtors",
+                    "tracking your debtors",
                     style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w600,
@@ -49,51 +50,46 @@ class LoginScreen extends HookWidget {
               ),
               YMargin(20),
               TextFormField(
+                initialValue: model.firstName,
                 style: TextStyle(color: Colors.white),
                 validator: (value) {
-                  if (!value.contains("@")) {
-                    return "please enter a valid email";
+                  if (value.isEmpty) {
+                    return "please enter your first name";
                   }
                   return null;
                 },
-                onSaved: (input) => email = input,
+                onSaved: (input) => _firstName = input,
                 decoration: InputDecoration(
-                  labelText: "email",
+                  labelText: "firstName",
                   // suffix: suffix,
                 ),
               ),
-              YMargin(10),
               TextFormField(
+                initialValue: model.lastName,
                 style: TextStyle(color: Colors.white),
                 validator: (value) {
-                  if (value.isEmpty || value.length < 6) {
-                    return "Please enter a valid password";
+                  if (value.isEmpty) {
+                    return "please enter your last name";
                   }
                   return null;
                 },
-                onSaved: (input) => password = input,
-                obscureText: true,
+                onSaved: (input) => _lastName = input,
                 decoration: InputDecoration(
-                  labelText: "password",
+                  labelText: "lastName",
+                  // suffix: suffix,
                 ),
               ),
               YMargin(30),
-             _viewmodel.busy == true? SpinKitPulse(color: Colors.green,): FlatButton(
+              FlatButton(
                 onPressed: () {
                   var formState = _formKey.currentState;
                   if (formState.validate()) {
-                    // final snackBar =
-                    //     SnackBar(content: Text('Incorrect password!'));
                     formState.save();
-                    
-                     _viewmodel.logUserIn(email: email, password: password);
-               
-                      // Scaffold.of(context).showSnackBar(snackBar);
-            
+                    _viewmodel.updateUserDatails(_firstName, _lastName);
                   }
                 },
                 child: Text(
-                  "Login",
+                  "Update",
                   style: TextStyle(color: Colors.white),
                 ),
                 color: Colors.green,
