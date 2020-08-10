@@ -4,7 +4,10 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:splitb/core/models/friendmodel.dart';
 import 'package:splitb/utils/margin.dart';
 import 'package:splitb/utils/theme.dart';
-
+import 'package:intent/intent.dart' as android_intent;
+import 'package:intent/extra.dart' as android_extra;
+import 'package:intent/typedExtra.dart' as android_typedExtra;
+import 'package:intent/action.dart' as android_action;
 
 class FriendDebtDetailScreen extends HookWidget {
   final FriendModel model;
@@ -128,7 +131,14 @@ class FriendDebtDetailScreen extends HookWidget {
                       color: Colors.green,
                       child: InkWell(
                         splashColor: Colors.grey,
-                        onTap: () {},
+                        onTap: () {
+                          android_intent.Intent()
+                            ..setAction(android_action.Action.ACTION_SEND)
+                            ..setType('text/plain')
+                            ..putExtra(android_extra.Extra.EXTRA_TEXT,
+                                'Hey ${model.friendName}, I am send this text to remind you of that ${model.amountOwed} you owe me ')
+                            ..startActivity().catchError((e) => print(e));
+                        },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.1,
                           child: Center(

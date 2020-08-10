@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splitb/core/models/expensemodel.dart';
 import 'package:splitb/core/models/friendmodel.dart';
+import 'package:splitb/core/models/group_friend_model.dart';
 import 'package:splitb/core/models/group_model.dart';
 import 'package:splitb/core/models/usermodel.dart';
 
@@ -221,6 +222,8 @@ class FirestoreServcie {
 
     await _db.collection("Expense").document(uid).updateData(model.toJson());
   }
+
+
 
   Future<String> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

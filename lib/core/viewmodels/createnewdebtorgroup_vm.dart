@@ -28,8 +28,8 @@ class CreateNewDebtorGroupViewmodel extends BaseViewModel {
         groupName: groupName,
         amountPerPerson: amount,
         totalAmount: totalAmount);
-    await _firestoreServcie.addGroup(model).then((value)async{
-    await _firestoreServcie
+    await _firestoreServcie.addGroup(model).then((value){
+     _firestoreServcie
         .postExpense(ExpenseModel(totalExpense: totalAmount, youROwed: 0));
     });
 

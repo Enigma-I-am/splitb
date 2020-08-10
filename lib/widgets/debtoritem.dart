@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:splitb/core/models/group_friend_model.dart';
-
 import 'package:splitb/utils/imageclipper.dart';
 import 'package:splitb/utils/margin.dart';
+import 'package:intent/intent.dart' as android_intent;
+import 'package:intent/extra.dart' as android_extra;
+import 'package:intent/typedExtra.dart' as android_typedExtra;
+import 'package:intent/action.dart' as android_action;
 
 class DebtorItem extends HookWidget {
   final FriendGroupModel model;
   final String amountOwed;
   final String totalExpense;
-  DebtorItem({@required this.model, @required this.amountOwed, @required this.totalExpense});
+  DebtorItem(
+      {@required this.model,
+      @required this.amountOwed,
+      @required this.totalExpense});
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -66,7 +72,15 @@ class DebtorItem extends HookWidget {
           caption: 'remind',
           color: Colors.blue,
           icon: Icons.notification_important,
-          // onTap: () => _showSnackBar('More'),
+          onTap: () {
+            android_intent.Intent()
+              ..setAction(android_action.Action.ACTION_VIEW)
+              ..setData(Uri(scheme: "sms", path: "${model.phoneNumber}"))
+              ..putExtra(android_extra.Extra.EXTRA_TEXT,
+                  'Hey ${model.friendName}, I am send this text to remind you of that $amountOwed you owe me ')
+              ..startActivity().catchError((e) => print(e));
+
+          },
         ),
         IconSlideAction(
           caption: 'mark as paid',
