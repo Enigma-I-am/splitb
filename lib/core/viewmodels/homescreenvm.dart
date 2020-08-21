@@ -3,6 +3,7 @@ import 'package:splitb/constants.dart';
 import 'package:splitb/core/models/expensemodel.dart';
 import 'package:splitb/core/models/friendmodel.dart';
 import 'package:splitb/core/models/group_model.dart';
+import 'package:splitb/core/services/authentication_service.dart';
 import 'package:splitb/core/services/firestore_service.dart';
 import 'package:splitb/core/services/navigation_service.dart';
 import 'package:splitb/core/viewmodels/basevm.dart';
@@ -15,10 +16,12 @@ class HomeScreenVM extends BaseViewModel {
   final ProviderReference ref;
   NavigationService _navigationService;
   FirestoreServcie _firestoreServcie;
+  AuthenticationService _authenticationService;
 
   HomeScreenVM(this.ref) {
     _navigationService = ref.read(navService);
     _firestoreServcie = ref.read(fireStoreService);
+    _authenticationService = ref.read(authService);
   }
 
   void listenToGroups() async {
@@ -33,8 +36,17 @@ class HomeScreenVM extends BaseViewModel {
     });
   }
 
-  void listenToExpenses()  {
-    _firestoreServcie.expenseStats.listen(_onExpenseUpdated);
+  Stream listenToExpenses(String uid) {
+    return _firestoreServcie.getExpenseAsStream(uid);
+  }
+
+  currentUser() {
+    return _authenticationService.currentUser.id;
+  }
+
+  loadUserDetails() async {
+    var uid = await _firestoreServcie.getUid();
+    return uid;
   }
 
   void _onExpenseUpdated(ExpenseModel expense) {
@@ -64,5 +76,10 @@ class HomeScreenVM extends BaseViewModel {
   void navigateToFriendDebtDetail(FriendModel title) async {
     await _navigationService.navigateTo(FRIENDDEBTDETAILSCREEN,
         arguments: title);
+  }
+
+  Future getUid() async {
+    var uid = await _firestoreServcie.getUid();
+    return uid;
   }
 }

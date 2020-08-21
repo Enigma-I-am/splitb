@@ -21,6 +21,7 @@ class AuthenticationService {
 // Check if user is logged in
   Future<bool> isUserLoggedIn() async {
     var user = await _auth.currentUser();
+    await saveUid(user.uid);
     await getUserDetails(user);
     return user != null;
   }
@@ -45,21 +46,21 @@ class AuthenticationService {
 
   // Create new User with email and password
   Future createUserWithEmailAndPassword(
-      {@required String email, @required String password,@required String firstname, @required String lastname, @required phoneNumber}) async {
+      {@required String email,
+      @required String password,
+      @required String firstname,
+      @required String lastname,
+      @required phoneNumber}) async {
     try {
       var authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       var uid = authResult.user.uid;
-            var userId = authResult.user.uid;
+      var userId = authResult.user.uid;
       saveUid(userId);
       print("ID: $uid");
 
       await firestoreService.addUserToUserCollection(
-        "Users",
-        uid,
-        email,
-        firstname,lastname,phoneNumber
-      );
+          "Users", uid, email, firstname, lastname, phoneNumber);
       await getUserDetails(authResult.user);
 
       return authResult.user != null;
@@ -78,10 +79,9 @@ class AuthenticationService {
   Future saveUid(String uid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var uid = prefs.getString('userId');
-    if(uid == null){
+    if (uid == null) {
       prefs.setString('userId', uid);
     }
-    
   }
 
   Future<String> getUid() async {

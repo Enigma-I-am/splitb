@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splitb/core/models/expensemodel.dart';
 import 'package:splitb/core/models/friendmodel.dart';
-import 'package:splitb/core/models/group_friend_model.dart';
 import 'package:splitb/core/models/group_model.dart';
 import 'package:splitb/core/models/usermodel.dart';
 
@@ -214,7 +213,7 @@ class FirestoreServcie {
           .document("Userexpense"));
       await transaction.update(freshSnapshot.reference, {
         'totalExpense': (freshSnapshot['totalExpense'] + model.totalExpense),
-        'youROwed': model.youROwed
+        'youROwed': (model.youROwed + model.totalExpense)
       }).catchError((e) {
         print(e.toString());
       }).whenComplete(() {});
@@ -223,10 +222,17 @@ class FirestoreServcie {
     await _db.collection("Expense").document(uid).updateData(model.toJson());
   }
 
-
-
   Future<String> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('userId');
   }
+
+  Stream getExpenseAsStream(String uid) {
+    _ref = _db.collection("Users").document(uid).collection("Expense");
+    print("this is the expense ${_ref.snapshots().first}");
+    return _ref.document("Userexpense").snapshots();
+  }
+
+
+
 }
