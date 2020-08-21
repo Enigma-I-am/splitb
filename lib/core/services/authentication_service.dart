@@ -26,11 +26,11 @@ class AuthenticationService {
     // await getUserDetails(user);
     if (user == null) {
       // await saveUid(user.uid);
-      await getUserDetails(user);
+      // await getUserDetails(user);
       return false;
     } else {
-      await saveUid(user.uid);
-      await getUserDetails(user);
+      // await saveUid(user.uid);
+      // await getUserDetails(user);
       return true;
     }
     // return user != null;
