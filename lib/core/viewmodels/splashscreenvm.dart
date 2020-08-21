@@ -20,8 +20,10 @@ class SpalshScreenVM extends BaseViewModel {
     var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
     if (hasLoggedInUser) {
       _navigationService.navigateTo(HOMESCREEN);
-    } else {
-      _navigationService.navigateTo(GETSTARTEDSCREEN);
+    }else{
+_navigationService.navigateTo(ONBOARDINGSCREEN);
     }
+      
+    
   }
 }

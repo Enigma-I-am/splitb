@@ -9,11 +9,10 @@ import 'package:splitb/widgets/groups_friends_bottomsheet.dart';
 import '../providers.dart';
 
 class HomeScreen extends HookWidget {
-  
   @override
   Widget build(BuildContext context) {
     final _viewmodel = useProvider(homescreenVm);
-  
+
     // ignore: missing_return
     useEffect(() {
       // _viewmodel.listenToExpenses();
@@ -54,30 +53,37 @@ class HomeScreen extends HookWidget {
                                     fontSize: 25),
                               ),
                               Spacer(),
-                              Column(
-                                children: <Widget>[
-                                  Hero(
-                                    tag: "img",
-                                    child: ClipOval(
-                                      clipper: ImageClipper(),
-                                      child: Image.asset(
-                                        'assets/images/login.png',
-                                        fit: BoxFit.cover,
-                                        width:
-                                            MediaQuery.of(context).size.height *
-                                                0.05,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.05,
+                              InkWell(
+                                onTap: () {
+                                  _viewmodel.navigateToProfileScreen();
+                                },
+                                child: Column(
+                                  children: <Widget>[
+                                    Hero(
+                                      tag: "img",
+                                      child: ClipOval(
+                                        clipper: ImageClipper(),
+                                        child: Image.asset(
+                                          'assets/images/login.png',
+                                          fit: BoxFit.cover,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.05,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.05,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  YMargin(5),
-                                  // Text(
-                                  //   "profile",
-                                  //   style: TextStyle(color: Colors.white),
-                                  // )
-                                ],
+                                    YMargin(5),
+                                    Text(
+                                      "profile",
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),

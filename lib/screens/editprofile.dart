@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:splitb/core/models/usermodel.dart';
 import 'package:splitb/providers.dart';
@@ -10,7 +11,7 @@ class EditProfile extends HookWidget {
   EditProfile({@required this.model});
   @override
   Widget build(BuildContext context) {
-    String _firstName, _lastName;
+    String _firstName, _lastName, _phoneNumber;
     final _formKey = GlobalKey<FormState>();
     final _viewmodel = useProvider(profileVM);
 
@@ -33,14 +34,7 @@ class EditProfile extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Create an account now and start",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20),
-                  ),
-                  Text(
-                    "tracking your debtors",
+                    "Update your profile",
                     style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w600,
@@ -79,23 +73,43 @@ class EditProfile extends HookWidget {
                   // suffix: suffix,
                 ),
               ),
-              YMargin(30),
-              FlatButton(
-                onPressed: () {
-                  var formState = _formKey.currentState;
-                  if (formState.validate()) {
-                    formState.save();
-                    _viewmodel.updateUserDatails(_firstName, _lastName);
+              TextFormField(
+                keyboardType: TextInputType.number,
+                initialValue: model.phoneNumber,
+                style: TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "please enter your phone Number";
                   }
+                  return null;
                 },
-                child: Text(
-                  "Update",
-                  style: TextStyle(color: Colors.white),
+                onSaved: (input) => _phoneNumber = input,
+                decoration: InputDecoration(
+                  labelText: "phone Number",
+                  // suffix: suffix,
                 ),
-                color: Colors.green,
               ),
+              YMargin(30),
+              _viewmodel.busy == true
+                  ? SpinKitPulse(
+                      color: Colors.green,
+                    )
+                  : FlatButton(
+                      onPressed: () {
+                        var formState = _formKey.currentState;
+                        if (formState.validate()) {
+                          formState.save();
+                          _viewmodel.updateUserDatails(
+                              _firstName, _lastName, _phoneNumber);
+                        }
+                      },
+                      child: Text(
+                        "Update",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      color: Colors.green,
+                    ),
               YMargin(20),
-
             ],
           ),
         ),

@@ -35,21 +35,20 @@ class ProfileViewmodel extends BaseViewModel {
     setBusy(false);
   }
 
+  UserModel currentUser() {
+    return _authenticationService.currentUser;
+  }
+
   void navigateToEditProfile(UserModel model) {
     _navigationService.navigateTo(EDITPROFILESCREEN, arguments: model);
   }
 
-  Future updateUserDatails(
-       String firsname, String lastname) async {
+  Future updateUserDatails(String firsname, String lastname, String phoneNumber) async {
     setBusy(true);
     var uid = await _authenticationService.getUid();
     await _firestoreServcie.updateUserInUserCollection(
-        path: "Users",
-        uid: uid,
-
-        firstname: firsname,
-        lastname: lastname);
-    _navigationService.navigateToReplacement(PROFILESCREEN);
+        path: "Users", uid: uid, firstname: firsname, lastname: lastname, phoneNumber:phoneNumber);
+    _navigationService.navigateToReplacement(HOMESCREEN);
     setBusy(false);
   }
 }

@@ -3,6 +3,7 @@ import 'package:splitb/core/services/authentication_service.dart';
 import 'package:splitb/core/services/firestore_service.dart';
 import 'package:splitb/core/viewmodels/bottomsheet_vm.dart';
 import 'package:splitb/core/viewmodels/createnewdebtorgroup_vm.dart';
+import 'package:splitb/core/viewmodels/groupdetailvm.dart';
 import 'package:splitb/core/viewmodels/homescreenvm.dart';
 import 'package:splitb/core/viewmodels/auth_vm.dart';
 import 'package:splitb/core/viewmodels/splashscreenvm.dart';
@@ -14,6 +15,7 @@ final navService = Provider((ref) => NavigationService());
 final fireStoreService = Provider((ref) => FirestoreServcie());
 final authService = Provider((ref) => AuthenticationService(ref));
 
+final groupDetailsVm = ChangeNotifierProvider((ref) => GroupDetailVM(ref));
 final splashVM = ChangeNotifierProvider((ref) => SpalshScreenVM(ref));
 final startVm = ChangeNotifierProvider((ref) => AuthViewmodel(ref));
 final homescreenVm = ChangeNotifierProvider((ref) => HomeScreenVM(ref));

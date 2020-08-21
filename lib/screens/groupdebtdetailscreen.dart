@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:splitb/core/models/group_model.dart';
+import 'package:splitb/providers.dart';
 import 'package:splitb/utils/margin.dart';
 import 'package:splitb/utils/theme.dart';
 import 'package:splitb/widgets/debtoritem.dart';
@@ -12,9 +14,18 @@ class GroupDebtDetailScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _viewmodel = useProvider(groupDetailsVm);
     return Scaffold(
       // Persistent AppBar that never scrolls
       appBar: AppBar(
+        actions: <Widget>[
+          // IconButton(
+          //     icon: Icon(Icons.delete),
+          //     onPressed: () async {
+                
+          //       await _viewmodel.deleteGroup(model.reference.documentID);
+          //     })
+        ],
         centerTitle: true,
         title: Text(
           model.groupName,

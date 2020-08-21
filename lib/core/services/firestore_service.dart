@@ -60,17 +60,20 @@ class FirestoreServcie {
     }
   }
 
-  Future updateUserInUserCollection({
-    @required String path,
-    @required String uid,
-    @required String firstname,
-    @required String lastname,
-  }) async {
+  Future updateUserInUserCollection(
+      {@required String path,
+      @required String uid,
+      @required String firstname,
+      @required String lastname,
+      @required String phoneNumber}) async {
     try {
       _ref = _db.collection(path);
-      await _ref.document(uid).updateData(
-          UserModel(id: uid, firstName: firstname, lastName: lastname)
-              .toJson());
+      await _ref.document(uid).updateData(UserModel(
+              id: uid,
+              firstName: firstname,
+              lastName: lastname,
+              phoneNumber: phoneNumber)
+          .toJson());
     } catch (e) {
       print(e.toString());
     }
@@ -100,7 +103,7 @@ class FirestoreServcie {
   Future addGroup(GroupModel groupModel) async {
     try {
       _ref = _db.collection("Groups");
-      getExpenseRealtime(groupModel.userId);
+      // getExpenseRealtime(groupModel.userId);
       await _ref.add(groupModel.toJson());
     } catch (e) {
       print(e.toString());
@@ -196,30 +199,26 @@ class FirestoreServcie {
 
   Future createExpenseCollection(String uid) async {
     await _db
-        .collection("Users")
-        .document(uid)
         .collection("Expense")
-        .document("Userexpense")
+        .document(uid)
         .setData(ExpenseModel(totalExpense: 0, youROwed: 0).toJson());
   }
 
   Future postExpense(ExpenseModel model) async {
-    var uid = await getUid();
-    _db.runTransaction((transaction) async {
-      DocumentSnapshot freshSnapshot = await transaction.get(_db
-          .collection("Users")
-          .document(uid)
-          .collection("Expense")
-          .document("Userexpense"));
-      await transaction.update(freshSnapshot.reference, {
-        'totalExpense': (freshSnapshot['totalExpense'] + model.totalExpense),
-        'youROwed': (model.youROwed + model.totalExpense)
-      }).catchError((e) {
-        print(e.toString());
-      }).whenComplete(() {});
-    });
+    
+    var ref = _db.collection("Expense");
+    WriteBatch batch = _db.batch();
 
-    await _db.collection("Expense").document(uid).updateData(model.toJson());
+    return ref.getDocuments().then((querySnapshot) {
+      querySnapshot.documents.forEach((document) {
+        batch.updateData(document.reference, {
+          'totalExpense': FieldValue.increment(model.totalExpense),
+          'youROwed': FieldValue.increment(model.youROwed)
+        });
+      });
+
+      return batch.commit();
+    });
   }
 
   Future<String> getUid() async {
@@ -228,11 +227,15 @@ class FirestoreServcie {
   }
 
   Stream getExpenseAsStream(String uid) {
-    _ref = _db.collection("Users").document(uid).collection("Expense");
+    _ref = _db.collection("Expense");
     print("this is the expense ${_ref.snapshots().first}");
-    return _ref.document("Userexpense").snapshots();
+    return _ref.document(uid).snapshots();
   }
 
+  Future<void> removeGroup(String id) async{
+    var ref = _db.collection("Groups");
+   await  ref.document(id).delete();
+  }
 
-
+  
 }

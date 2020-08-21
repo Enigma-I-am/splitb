@@ -28,13 +28,17 @@ class CreateNewDebtorGroupViewmodel extends BaseViewModel {
         groupName: groupName,
         amountPerPerson: amount,
         totalAmount: totalAmount);
-    await _firestoreServcie.addGroup(model).then((value){
-     _firestoreServcie
-        .postExpense(ExpenseModel(totalExpense: totalAmount, youROwed: 0));
-    });
+    await _firestoreServcie.addGroup(model);
 
     _navigationService.goBack();
     setBusy(false);
     // print(_friends[0].amountOwed);
+  }
+
+  Future addExpense(int amount, int totalAmount) async {
+    setBusy(true);
+    await _firestoreServcie
+        .postExpense(ExpenseModel(totalExpense: totalAmount, youROwed: 0));
+    setBusy(false);
   }
 }

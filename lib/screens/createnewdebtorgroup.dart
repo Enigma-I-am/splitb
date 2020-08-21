@@ -99,9 +99,7 @@ class _CreateNewDebtorGroupState extends State<CreateNewDebtorGroup> {
                       print(model.friendName);
                       friends.add(model);
                       print(friends.length);
-                      setState(() {
-                        
-                      });
+                      setState(() {});
                       // await _viewmodel.addFriendToList(model);
                     },
                     child: AddWidget(),
@@ -135,27 +133,37 @@ class _CreateNewDebtorGroupState extends State<CreateNewDebtorGroup> {
               YMargin(5),
               Consumer((context, watch) {
                 final viewmodel = watch(createDebtorGroupVm);
-                return viewmodel.busy == true ? SpinKitPulse(color: Colors.green,) : FlatButton(
-                  color: Colors.green,
-                  onPressed: () async {
-                    var formState = _formKey.currentState;
-                    if (formState.validate()) {
-                      formState.save();
+                return viewmodel.busy == true
+                    ? SpinKitPulse(
+                        color: Colors.green,
+                      )
+                    : FlatButton(
+                        color: Colors.green,
+                        onPressed: () async {
+                          var formState = _formKey.currentState;
+                          if (formState.validate()) {
+                            formState.save();
 
-                      var amountOwedPrePerson = _amount / friends.length + 1;
-                      print(friends[0].friendName);
-                      
-                      await viewmodel.addGroup(
-                          friends, _name, amountOwedPrePerson.toInt(),_amount);
-                    }
-                  },
-                  child: Text(
-                    "Create",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                );
+                            var amountOwedPrePerson =
+                                _amount / friends.length + 1;
+                            print(friends[0].friendName);
+
+                            await viewmodel
+                                .addGroup(friends, _name,
+                                    amountOwedPrePerson.toInt(), _amount)
+                                .then((value) async {
+                              await viewmodel.addExpense(
+                                  amountOwedPrePerson.toInt(), _amount);
+                            });
+                          }
+                        },
+                        child: Text(
+                          "Create",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
               })
             ],
           ),

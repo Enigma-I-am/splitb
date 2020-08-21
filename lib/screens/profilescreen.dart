@@ -11,13 +11,14 @@ class ProfileScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final vm = useProvider(profileVM);
-    final store = useMemoized(() => vm);
-    // ignore: missing_return
-    useEffect(() {
-      print("effect");
-      Future.microtask(() => store.getUserDetails());
-      // Future.microtask(() => store.listenToGroups());
-    }, []);
+
+    // final store = useMemoized(() => vm);
+    // // ignore: missing_return
+    // useEffect(() {
+    //   print("effect");
+    //   Future.microtask(() => vm.getUserDetails());
+    //   // Future.microtask(() => store.listenToGroups());
+    // }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -34,8 +35,8 @@ class ProfileScreen extends HookWidget {
             tag: "img",
             child: ClipOval(
               clipper: ImageClipper(),
-              child: Image.network(
-                "https://pbs.twimg.com/profile_images/1257072406092546048/UG-tTGNJ_400x400.jpg",
+              child: Image.asset(
+                'assets/images/login.png',
                 width: MediaQuery.of(context).size.width * 0.27,
                 height: MediaQuery.of(context).size.height * 0.27,
                 fit: BoxFit.contain,
@@ -54,7 +55,7 @@ class ProfileScreen extends HookWidget {
                     Icon(Icons.portrait),
                     XMargin(10),
                     Text(
-                      "Nwagba Okechukwu",
+                      "${vm.currentUser().lastName} ${vm.currentUser().firstName}",
                       style: TextStyle(color: Colors.white),
                     ),
                     Spacer(),
@@ -67,7 +68,7 @@ class ProfileScreen extends HookWidget {
                     Icon(Icons.mail_outline),
                     XMargin(10),
                     Text(
-                      "nwagba001@gmail.com",
+                      "${vm.currentUser().email}",
                       style: TextStyle(color: Colors.white),
                     ),
                     Spacer(),
@@ -80,7 +81,7 @@ class ProfileScreen extends HookWidget {
                     Icon(Icons.phone),
                     XMargin(10),
                     Text(
-                      "07056322074",
+                      "${vm.currentUser().phoneNumber}",
                       style: TextStyle(color: Colors.white),
                     ),
                     Spacer()
@@ -96,10 +97,10 @@ class ProfileScreen extends HookWidget {
             child: FlatButton(
               color: Colors.green,
               onPressed: () {
-                vm.navigateToEditProfile(vm.user);
+                vm.navigateToEditProfile(vm.currentUser());
               },
               child: Text(
-                "Update",
+                "Edit",
                 style: TextStyle(color: Colors.white),
               ),
             ),

@@ -34,24 +34,12 @@ class SplashScreen extends HookWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal:40.0, vertical: 8.0),
-              child: LinearProgressIndicator(backgroundColor: Colors.green,),
+              child: LinearProgressIndicator(backgroundColor: Colors.blue,),
             ),
           ],
         ),
       ),
     );
 
-    // return FutureBuilder<FirebaseUser>(
-    //     future: FirebaseAuth.instance.currentUser(),
-    //     builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
-    //       if (snapshot.hasData) {
-    //         FirebaseUser user = snapshot.data;
-    //         print(user.uid);
-    //         saveUid(user.uid);
-    //         // authService.readOwner(this).
-    //         return HomeScreen();
-    //       }
-    //       return Onboarding();
-    //     });
   }
 }

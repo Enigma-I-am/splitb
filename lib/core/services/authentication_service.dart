@@ -21,9 +21,19 @@ class AuthenticationService {
 // Check if user is logged in
   Future<bool> isUserLoggedIn() async {
     var user = await _auth.currentUser();
-    await saveUid(user.uid);
-    await getUserDetails(user);
-    return user != null;
+    
+    // await getUserDetails(user);
+    // await getUserDetails(user);
+    if (user == null) {
+      // await saveUid(user.uid);
+      await getUserDetails(user);
+      return false;
+    } else {
+      await saveUid(user.uid);
+      await getUserDetails(user);
+      return true;
+    }
+    // return user != null;
   }
 
   Future<FirebaseUser> theCurrentUser() async {
